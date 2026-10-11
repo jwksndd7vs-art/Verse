@@ -1,0 +1,15 @@
+Verse AltStore widget update
+
+1. In GitHub upload the included VerseWidget folder to the repository root, replacing the existing files. Commit.
+2. Edit .github/workflows/build.yml and replace ALL its text with the included build.yml. Commit.
+3. Actions > Build Verse > Run workflow.
+4. Download Verse-altstore from the successful run and extract Verse-altstore.ipa.
+5. Install through AltStore over Verse. Keep app extensions. Use the same Apple account as before.
+6. Open Verse and connect Spotify again; play a song and tap Sync.
+7. Remove and re-add the Verse widget if its old message persists.
+
+This workflow attaches App Group entitlements with an ad hoc signature so AltStore can detect and provision sharing. AltStore then signs for the device; the ad hoc signature alone is NOT installable.
+
+The app and extension read AltStore's provisioned ALTAppGroups identifier and store Spotify credentials in that group's Keychain. Tokens are never stored in shared preferences or included in this source archive.
+
+The old private login is not migrated automatically. Reconnect after updating. Native build and device installation must still be verified using GitHub and the iPhone. Widget refresh scheduling remains controlled by iOS.
