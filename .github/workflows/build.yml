@@ -1,0 +1,40 @@
+name: Build Verse
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build iPhone app
+        run: |
+          xcodebuild \
+            -project VerseWidget/VerseWidget.xcodeproj \
+            -scheme Verse \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package IPA
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/Verse.app Payload/
+          /usr/bin/zip -qry Verse-unsigned.ipa Payload
+
+      - name: Save download
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verse-unsigned
+          path: Verse-unsigned.ipa
+          if-no-files-found: error
