@@ -9,8 +9,7 @@ enum TokenVault {
     static var query: [String: Any] {
         var q: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                               kSecAttrService as String: "VerseSpotify", kSecAttrAccount as String: "tokens"]
-        if let group, !group.isEmpty { q[kSecAttrAccessGroup as String] = group }
-        return q
+                return q
     }
     static func read() -> OAuthTokens? {
         var q = query; q[kSecReturnData as String] = true; q[kSecMatchLimit as String] = kSecMatchLimitOne
